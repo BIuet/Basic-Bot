@@ -16,6 +16,11 @@ class Database(commands.Cog):
       
     def close():
       conn.close()
+    
+    @commands.Cog.listener()
+    async def on_guild_join(guild):
+        connect()
+        c.execute(f"CREATE TABLE IF NOT EXISTS {guild}(user STR, tank STR, score INT)")
         
     @commands.command(
         name='ping',
