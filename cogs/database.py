@@ -21,7 +21,7 @@ class Database(commands.Cog):
     async def on_guild_join(guild):
         connect()
         c.execute(f"CREATE TABLE IF NOT EXISTS users(user STR, tank STR, score INT)")
-        await guild.owner.send(f'Heya! Just to let you know, Photon Bot has been added to your discord server, {guild}!\nFeel free to type ``--help``')
+        await guild.owner.send(f'Heya! Just to let you know, Photon Bot has been added to your discord server, {guild}!\nFeel free to type ``o help`` at any time to receive owner exclusive commands!')
         
     @commands.command(
         name='ping',
