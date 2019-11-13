@@ -11,7 +11,7 @@ class Database(commands.Cog):
         self.bot = bot
         
     def connect():
-      conn = sqlite3.connect("arras.db")
+      conn = sqlite3.connect("photon.db")
       c = conn.cursor()
       
     def close():
@@ -21,7 +21,7 @@ class Database(commands.Cog):
     async def on_guild_join(guild):
         connect()
         c.execute(f"CREATE TABLE IF NOT EXISTS users(user STR, tank STR, score INT)")
-        await guild.owner.send(f'Heya! Thanks for being awesome and ')
+        await guild.owner.send(f'Heya! Just to let you know, Photon Bot has been added to your discord server, {guild}!\nFeel free to type ``--help``')
         
     @commands.command(
         name='ping',
