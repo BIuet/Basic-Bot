@@ -5,7 +5,7 @@ import os
 
 bot = commands.Bot(command_prefix = '--', case_insensitive=True)
 
-cogs = ['cogs.database',]
+cogs = ['cogs.database','cogs.coghandler',]
 
 @bot.event
 async def on_ready():
