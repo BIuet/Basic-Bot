@@ -16,4 +16,4 @@ async def on_ready():
     await bot.change_presence(activity=discord.Game(name='type --help for commamds!', type=0))
     return
     
-bot.run('BOT TOKEN', bot=True, reconnect=True)
+bot.run('NjQ0NzE2MTU3Njg5MDA0MDg0.Xc4sfQ.UkWVomtzQUy-3BaBh120vP7qPf0', bot=True, reconnect=True)
