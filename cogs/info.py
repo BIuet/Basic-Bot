@@ -8,45 +8,6 @@ class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         
-    @commands.command(aliases=["ri","role"])
-    @commands.guild_only()
-    async def roleinfo(self, ctx, *, role: discord.Role):
-        '''Shows information about a role'''
-        guild = ctx.guild
-
-        since_created = (ctx.message.created_at - role.created_at).days
-        role_created = role.created_at.strftime("%d %b %Y %H:%M")
-        created_on = "{} ({} days ago!)".format(role_created, since_created)
-        members = ''
-        i = 0
-        for user in role.members:
-            members += f'{user.name}, '
-            i+=1
-            if i > 30:
-                break
-
-        if str(role.colour) == "#000000":
-            colour = "default"
-            color = ("#%06x" % random.randint(0, 0xFFFFFF))
-            color = int(colour[1:], 16)
-        else:
-            colour = str(role.colour).upper()
-            color = role.colour
-
-        em = discord.Embed(colour=color)
-        em.set_author(name=role.name)
-        em.add_field(name="Users", value=len(role.members))
-        em.add_field(name="Mentionable", value=role.mentionable)
-        em.add_field(name="Hoist", value=role.hoist)
-        em.add_field(name="Position", value=role.position)
-        em.add_field(name="Managed", value=role.managed)
-        em.add_field(name="Colour", value=colour)
-        em.add_field(name='Creation Date', value=created_on)
-        em.add_field(name='Members', value=members[:-2], inline=False)
-        em.set_footer(text=f'Role ID: {role.id}')
-
-        await ctx.send(embed=em)
-        
     @commands.command(aliases=['server','info'], no_pm=True)
     @commands.guild_only()
     async def serverinfo(self, ctx, server_id : int=None):
