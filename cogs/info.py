@@ -22,9 +22,8 @@ class Info(commands.Cog):
         passed = (ctx.message.created_at - server.created_at).days
         created_at = "Since {}. That's over {} days ago!".format(server.created_at.strftime("%d %b %Y %H:%M"), passed)
 
-        colour = await ctx.get_dominant_color(server.icon_url)
 
-        data = discord.Embed(description=created_at,colour=colour)
+        data = discord.Embed(description=created_at)
         data.add_field(name="Region", value=str(server.region))
         data.add_field(name="Users", value="{}/{}".format(online, total_users))
         data.add_field(name="Text Channels", value=text_channels)
