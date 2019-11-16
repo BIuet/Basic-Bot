@@ -10,14 +10,17 @@ class Database(commands.Cog):
     
     def __init__(self, bot):
         self.bot = bot
+        conn = sqlite3.connect("photon.db")
+        c = conn.cursor()
         c.execute(f"CREATE TABLE IF NOT EXISTS users(user STR, coins INT)")
+        conn.close()
         
     def connect():
-      conn = sqlite3.connect("photon.db")
-      c = conn.cursor()
+        conn = sqlite3.connect("photon.db")
+        c = conn.cursor()
       
     def close():
-      conn.close()
+        conn.close()
     
     def retrieve(user, item):
         c.execute("SELECT ? FROM users WHERE user = ?", (item,user,))
