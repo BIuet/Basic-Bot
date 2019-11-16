@@ -59,9 +59,9 @@ class Info(commands.Cog):
             return ctx.message.author.id == 625354389061894145 or ctx.message.author == ctx.message.guild.owner
         return commands.check(predicate)
         
-    @commands.command(aliases=['del','p','wipe','purge','clear'])
+    @commands.command(aliases=['del','clear'])
     @has_access()
-    async def purge(self, ctx, limit : int, member:discord.Member=None):
+    async def purge(self, ctx, limit : int):
         '''Clean a number of messages'''
         if member is None:
             await ctx.purge(limit=limit+1)
