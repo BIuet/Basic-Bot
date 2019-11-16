@@ -8,7 +8,7 @@ class Info(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         
-    @commands.command(aliases=["ri","role"], no_pm=True)
+    @commands.command(aliases=["ri","role"])
     @commands.guild_only()
     async def roleinfo(self, ctx, *, role: discord.Role):
         '''Shows information about a role'''
