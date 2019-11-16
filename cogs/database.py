@@ -55,7 +55,7 @@ class Database(commands.Cog):
         currentbalance = currentbalance+amount
         c.execute("UPDATE users SET coins = ? WHERE user =?",(currentbalance,member,))
         conn.commit()
-        embed.add_field(name='Yay!',value='This user got awarded {} coins!',(amount))
+        embed.add_field(name='Yay!',value='This user got awarded {} coins!'(amount))
         ctx.send(embed=embed)
         close()
         
