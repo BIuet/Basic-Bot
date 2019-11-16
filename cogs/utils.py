@@ -15,7 +15,7 @@ class Utility(commands.Cog):
     @commands.command()
     async def quote(self, ctx, id: int, channel: discord.TextChannel=None):
         await ctx.message.delete()
-        msg = await ctx.get_message(channel or ctx.channel, id)
+        msg = await ctx.fetch_message(id)
         if not msg:
             return await ctx.send('Could not find that message!', delete_after=3.0)
         em = discord.Embed(color=0x00FFFF, description=msg.clean_content, timestamp=msg.created_at)
