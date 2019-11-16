@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import datetime
+from datetime import datetime as d
 import asyncio
 
 class Info(commands.Cog):
