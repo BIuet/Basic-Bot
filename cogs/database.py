@@ -38,8 +38,9 @@ class Database(commands.Cog):
         connect()
         embed.add_field(name='Balance',value=retrieve(member,coins))
         ctx.send(embed=embed)
+        close()
         
-    @commands.command(name='award',aliases=['a','gift')
+    @commands.command(name='award',aliases=['a','gift','give'])
     @is_owner()
     async def award(self, ctx, *, member : discord.member):
         embed = discord.Embed()
@@ -49,13 +50,15 @@ class Database(commands.Cog):
         amount = random.randint(20,60)
         currentbalance = retrieve(member,coins)
         if currentbalance == '':
-                                            
+            c.execute("INSERT INTO users VALUES(?,0)",(member,))
+            conn.commit()
         amount = int(amount)
         currentbalance = currentbalance+amount
         c.execute("UPDATE users SET coins = ? WHERE user =?",(currentbalance,member,))
         conn.commit()
         embed.add_field(name='Yay!',value='This user got awarded {} coins!',(amount))
         ctx.send(embed=embed)
+        close()
         
 def setup(bot):
     bot.add_cog(Database(bot))
