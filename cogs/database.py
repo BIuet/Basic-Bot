@@ -29,7 +29,6 @@ class Database(commands.Cog):
     @commands.command(
         name='view',
         aliases=['v','profile','balance']
-        no_pm=true
     )
     async def view(self, ctx, *, member : discord.member):
         embed = discord.Embed()
