@@ -45,6 +45,18 @@ class Database(commands.Cog):
         ctx.send(embed=embed)
         close()
         
+    @commands.command(
+        name='check',
+    )
+    async def check(self, ctx):
+        connect()
+        currentbalance = retrieve(ctx.message.author,won)
+        if currentbalance == '':
+            c.execute("INSERT INTO currency VALUES(?,0,0)",(ctx.message.author,))
+            conn.commit()
+            print("Added f'{ctx.message.author} to database")
+        close()
+        
     @commands.Cog.listener()
     async def on_member_join(self, member):
         connect()
