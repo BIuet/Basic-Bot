@@ -9,6 +9,7 @@ class Database(commands.Cog):
     
     def __init__(self, bot):
         self.bot = bot
+        c.execute(f"CREATE TABLE IF NOT EXISTS users(user STR, score INT)")
         
     def connect():
       conn = sqlite3.connect("photon.db")
@@ -16,12 +17,6 @@ class Database(commands.Cog):
       
     def close():
       conn.close()
-    
-    @commands.Cog.listener()
-    async def on_guild_join(guild):
-        connect()
-        c.execute(f"CREATE TABLE IF NOT EXISTS users(user STR, tank STR, score INT)")
-        await guild.owner.send(f'Heya! Just to let you know, Photon Bot has been added to your discord server, {guild}!\nFeel free to type ``o help`` at any time to receive owner exclusive commands!\nIf you would like to access more diverse and interesting commands, you can add a ``#bot-suggestions`` channel and your server members can send in suggestions for the server! Suggestions are limited to only one per member, to avoid spam. Type in ``o ownerhelp`` for more info.')
         
     @commands.command(
         name='ping',
