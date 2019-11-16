@@ -12,7 +12,7 @@ class Database(commands.Cog):
         self.bot = bot
         conn = sqlite3.connect("photon.db")
         c = conn.cursor()
-        c.execute(f"CREATE TABLE IF NOT EXISTS users(user STR, coins INT)")
+        c.execute(f"CREATE TABLE IF NOT EXISTS users(user STR, won INT)")
         conn.close()
         
     def connect():
@@ -33,33 +33,26 @@ class Database(commands.Cog):
         name='view',
         aliases=['v','profile','balance']
     )
-    async def view(self, ctx, *, member : discord.member):
+    async def view(self, ctx, *, member : discord.member-None):
+        server = ctx.guild
+        user = member or ctx.message.author
+        avi = user.avatar_url
         embed = discord.Embed()
         embed.colour = member.role.colour
         embed.set_author(name=member, icon_url=member.avatar_url)
         connect()
-        embed.add_field(name='Balance',value=retrieve(member,coins))
+        embed.add_field(name='Rock Paper Scissors Games Won',value=retrieve(member,won))
         ctx.send(embed=embed)
         close()
         
-    @commands.command(name='award',aliases=['a','gift','give'])
-    @is_owner()
-    async def award(self, ctx, *, member : discord.member):
-        embed = discord.Embed()
-        embed.colour = member.role.colour
-        embed.set_author(name=member, icon_url=member.avatar_url)
+    @commands.Cog.listener()
+    async def on_member_join(self, member):
         connect()
-        amount = random.randint(20,60)
-        currentbalance = retrieve(member,coins)
+        currentbalance = retrieve(member,won)
         if currentbalance == '':
-            c.execute("INSERT INTO users VALUES(?,0)",(member,))
+            c.execute("INSERT INTO currency VALUES(?,0,0)",(membername,))
             conn.commit()
-        amount = int(amount)
-        currentbalance = currentbalance+amount
-        c.execute("UPDATE users SET coins = ? WHERE user =?",(currentbalance,member,))
-        conn.commit()
-        embed.add_field(name='Yay!',value='This user got awarded {} coins!'(amount))
-        ctx.send(embed=embed)
+            print("Added f'{member} to database")
         close()
         
 def setup(bot):
