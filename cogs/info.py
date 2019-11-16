@@ -61,7 +61,7 @@ class Info(commands.Cog):
     @has_access()
     async def purge(self, ctx, limit : int):
         '''Clean a number of messages'''
-        await ctx.purge(limit=limit+1)
+        await ctx.message.channel.purge(limit=limit+1)
         
     @commands.Cog.listener()
     async def on_guild_join(guild):
