@@ -64,7 +64,7 @@ class Info(commands.Cog):
         await ctx.message.channel.purge(limit=limit+1)
         
     @commands.Cog.listener()
-    async def on_guild_join(guild):
+    async def on_guild_join():
         await guild.owner.send(f'Heya! Just to let you know, Photon Bot has been added to your discord server, {guild}!\nFeel free to type ``o help`` at any time to receive a commands help message!')
         
 def setup(bot):
