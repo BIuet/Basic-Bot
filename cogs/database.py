@@ -33,7 +33,7 @@ class Database(commands.Cog):
         name='view',
         aliases=['v','profile','balance']
     )
-    async def view(self, ctx, *, member : discord.member-None):
+    async def view(self, ctx, *, member : discord.member=None):
         server = ctx.guild
         user = member or ctx.message.author
         avi = user.avatar_url
