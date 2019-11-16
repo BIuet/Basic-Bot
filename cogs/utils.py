@@ -27,28 +27,6 @@ class Utility(commands.Cog):
         await ctx.send(embed=em)
         
     @commands.command()
-    async def embed(self, ctx, *, params):
-        '''Send complex rich embeds with this command!
-        ```
-        {description: Discord format supported}
-        {title: required | url: optional}
-        {author: required | icon: optional | url: optional}
-        {image: image_url_here}
-        {thumbnail: image_url_here}
-        {field: required | value: required}
-        {footer: footer_text_here | icon: optional}
-        {timestamp} <-this will include a timestamp
-        ```
-        '''
-        em = await self.to_embed(ctx, params)
-        await ctx.message.delete()
-        try:
-            await ctx.send(embed=em)
-            self._last_embed = params
-        except:
-            await ctx.send('Improperly formatted embed!')
-            
-    @commands.command()
     async def choose(self, ctx, *, choices: commands.clean_content):
         '''Choose between multiple choices. Use `,` to seperate choices.'''
         choices = choices.split(',')
