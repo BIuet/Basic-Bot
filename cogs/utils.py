@@ -7,7 +7,7 @@ class Utility(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         
-    @commands.command(aliases=["setgame","game","change"])
+    @commands.command(aliases=["setgame","game"])
     async def change(self, ctx, *, arg):
         await bot.change_presence(activity=discord.Game(name=arg, type=0))
         await ctx.send('Game presence changed!')
