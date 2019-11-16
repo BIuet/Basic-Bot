@@ -3,13 +3,14 @@ from discord.ext import commands
 from datetime import datetime as d
 import os
 import asyncio
+import random
 import sqlite3
 
 class Database(commands.Cog):
     
     def __init__(self, bot):
         self.bot = bot
-        c.execute(f"CREATE TABLE IF NOT EXISTS users(user STR, score INT)")
+        c.execute(f"CREATE TABLE IF NOT EXISTS users(user STR, coins INT)")
         
     def connect():
       conn = sqlite3.connect("photon.db")
@@ -17,19 +18,44 @@ class Database(commands.Cog):
       
     def close():
       conn.close()
+    
+    def retrieve(user, item):
+        c.execute("SELECT ? FROM users WHERE user = ?", (item,user,))
+        retrieved = c.fetchall()
+        retrieved = str(retrieved)
+        retrieved = retrieved[2:-3]
+        return retrieved
         
     @commands.command(
-        name='ping',
-        description='The ping command',
-        aliases=['p']
+        name='view',
+        aliases=['v','profile','balance']
+        no_pm=true
     )
-    async def ping_command(self, ctx):
-        start = d.timestamp(d.now())
-
-        msg = await ctx.send(content='Pinging')
-
-        await msg.edit(content=f'Pong!\nOne message round-trip took {( d.timestamp( d.now() ) - start ) * 1000 }ms.')
-        return
+    async def view(self, ctx, *, member : discord.member):
+        embed = discord.Embed()
+        embed.colour = member.role.colour
+        embed.set_author(name=member, icon_url=member.avatar_url)
+        connect()
+        embed.add_field(name='Balance',value=retrieve(member,coins))
+        ctx.send(embed=embed)
+        
+    @commands.command(name='award',aliases=['a','gift')
+    @is_owner()
+    async def award(self, ctx, *, member : discord.member):
+        embed = discord.Embed()
+        embed.colour = member.role.colour
+        embed.set_author(name=member, icon_url=member.avatar_url)
+        connect()
+        amount = random.randint(20,60)
+        currentbalance = retrieve(member,coins)
+        if currentbalance == '':
+                                            
+        amount = int(amount)
+        currentbalance = currentbalance+amount
+        c.execute("UPDATE users SET coins = ? WHERE user =?",(currentbalance,member,))
+        conn.commit()
+        embed.add_field(name='Yay!',value='This user got awarded {} coins!',(amount))
+        ctx.send(embed=embed)
         
 def setup(bot):
     bot.add_cog(Database(bot))
