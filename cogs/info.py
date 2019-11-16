@@ -10,9 +10,9 @@ class Info(commands.Cog):
         
     @commands.command(aliases=['server','info'], no_pm=True)
     @commands.guild_only()
-    async def serverinfo(self, ctx, server_id : int=None):
+    async def serverinfo(self, ctx):
         '''See information about the server.'''
-        server = self.bot.get_server(id=server_id) or ctx.guild
+        server = ctx.guild
         total_users = len(server.members)
         online = len([m for m in server.members if m.status != discord.Status.offline])
         text_channels = len([x for x in server.channels if isinstance(x, discord.TextChannel)])
@@ -48,9 +48,7 @@ class Info(commands.Cog):
     )
     async def ping_command(self, ctx):
         start = d.timestamp(d.now())
-
         msg = await ctx.send(content='Pinging')
-
         await msg.edit(content=f'Pong!\nOne message round-trip took {( d.timestamp( d.now() ) - start ) * 1000 }ms.')
         return
                 
@@ -63,12 +61,7 @@ class Info(commands.Cog):
     @has_access()
     async def purge(self, ctx, limit : int):
         '''Clean a number of messages'''
-        if member is None:
-            await ctx.purge(limit=limit+1)
-        else:
-            async for message in ctx.channel.history(limit=limit+1):
-                if message.author is member:
-                    await message.delete()
+        await ctx.purge(limit=limit+1)
         
     @commands.Cog.listener()
     async def on_guild_join(guild):
