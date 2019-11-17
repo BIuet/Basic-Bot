@@ -52,7 +52,7 @@ class Database(commands.Cog):
     async def on_member_join(self, member):
         currentbalance = retrieve(member,won)
         if currentbalance == '':
-            self.c.execute("INSERT INTO currency VALUES(?,0,0)",(membername,))
+            self.c.execute("INSERT INTO currency VALUES(?,0)",(member,))
             self.conn.commit()
             print("Added f'{member} to database")
         
