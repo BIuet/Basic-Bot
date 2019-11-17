@@ -13,18 +13,13 @@ class Database(commands.Cog):
         conn = sqlite3.connect("photon.db")
         c = conn.cursor()
         c.execute(f"CREATE TABLE IF NOT EXISTS users(user STR, won INT)")
-        conn.close()
-        
-    def connect():
-        conn = sqlite3.connect("photon.db")
-        c = conn.cursor()
       
-    def close():
+    def close(self):
         conn.close()
     
-    def retrieve(user, item):
-        c.execute("SELECT ? FROM users WHERE user = ?", (item,user,))
-        retrieved = c.fetchall()
+    def retrieve(self,user):
+        self.c.execute("SELECT won FROM users WHERE user = ?", (user,))
+        retrieved = self.c.fetchall()
         retrieved = str(retrieved)
         retrieved = retrieved[2:-3]
         return retrieved
@@ -38,34 +33,28 @@ class Database(commands.Cog):
         user = member or ctx.message.author
         avi = user.avatar_url
         embed = discord.Embed()
-        embed.colour = member.role.colour
-        embed.set_author(name=member, icon_url=member.avatar_url)
-        connect()
-        embed.add_field(name='Rock Paper Scissors Games Won',value=retrieve(member,won))
+        embed.colour = user.role.colour
+        embed.set_author(name=user, icon_url=user.avatar_url)
+        embed.add_field(name='Rock Paper Scissors Games Won',value=self.retrieve(user))
         ctx.send(embed=embed)
-        close()
         
     @commands.command(
         name='check',
     )
     async def check(self, ctx):
-        connect()
-        currentbalance = retrieve(ctx.message.author,won)
+        currentbalance = self.retrieve(ctx.message.author)
         if currentbalance == '':
-            c.execute("INSERT INTO currency VALUES(?,0,0)",(ctx.message.author,))
-            conn.commit()
+            self.c.execute("INSERT INTO users VALUES(?,0)",(ctx.message.author,))
+            self.conn.commit()
             print("Added f'{ctx.message.author} to database")
-        close()
         
     @commands.Cog.listener()
     async def on_member_join(self, member):
-        connect()
         currentbalance = retrieve(member,won)
         if currentbalance == '':
-            c.execute("INSERT INTO currency VALUES(?,0,0)",(membername,))
-            conn.commit()
+            self.c.execute("INSERT INTO currency VALUES(?,0,0)",(membername,))
+            self.conn.commit()
             print("Added f'{member} to database")
-        close()
         
 def setup(bot):
     bot.add_cog(Database(bot))
