@@ -5,7 +5,7 @@ import os
 
 bot = commands.Bot(command_prefix = 'o ', case_insensitive=True)
 
-cogs = ['cogs.coghandler','cogs.info','cogs.utils']
+cogs = ['cogs.commandhandler','cogs.coghandler','cogs.info','cogs.utils']
 
 @bot.event
 async def on_ready():
@@ -13,7 +13,7 @@ async def on_ready():
     for cog in cogs:
         bot.load_extension(cog)
     print(bot.cogs)
-    await bot.change_presence(activity=discord.Game(name='type --help for commamds!', type=0))
+    await bot.change_presence(activity=discord.Game(name='type "o help" for commamds!', type=0))
     return
     
 bot.run('BOT TOKEN', bot=True, reconnect=True)
