@@ -19,7 +19,6 @@ class Search(commands.Cog):
                 else:
                     try:
                         data = resp.url
-
                         await ctx.send(data)
                         
     @commands.command(aliases=["urban", "ud"])
