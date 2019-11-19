@@ -9,6 +9,7 @@ class Cog(commands.Cog):
         self.bot = bot
         
     @commands.command()
+    @is_owner()
     async def reload(self, ctx, *, cog: str):
         """ Reload any cog """
         cog = f"cogs.{cog}"
@@ -20,6 +21,7 @@ class Cog(commands.Cog):
             await message.edit(content='Error reloading cog.')
     
     @commands.command()
+    @is_owner()
     async def unload(self, ctx, *, cog: str):
         cog = f"cogs.{cog}"
         message = await ctx.send(f"Preparing to remove {cog}...")
@@ -30,6 +32,7 @@ class Cog(commands.Cog):
             await message.edit(content='Error removing cog.')
 
     @commands.command()
+    @is_owner()
     async def load(self, ctx, *, cog: str):
         cog = f"cogs.{cog}"
         message = await ctx.send(f"Preparing to load {cog}...")
