@@ -24,7 +24,7 @@ class Search(commands.Cog):
                     except Exception:
                         await ctx.send("Oh no! The cats are on fire!")
                         
-    @commands.command(aliases=["ud"])
+    @commands.command(aliases=["urban", "ud"])
     async def urban(self, ctx, *, arg):
         search = arg.replace(" ","+")
         url = "http://api.urbandictionary.com/v0/define?term={}".format(search)
