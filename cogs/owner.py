@@ -18,7 +18,7 @@ class Owner(commands.Cog):
     @has_access()
     async def setup(self, ctx):
         if ctx.channel.name == 'photon-bot':
-            await ctx.delete()
+            await ctx.message.delete()
             message = await ctx.send('Priority List:\n')
             await message.pin()
         else:
@@ -37,5 +37,5 @@ class Owner(commands.Cog):
     async def on_guild_join(self, guild):
         await guild.owner.send(f'Heya! Just to let you know, Photon Bot has been added to your discord server, {guild}!\nFeel free to type ``o help`` at any time to receive a commands help message!\nIf you want a suggestions function, follow the instructions below:\n\n1. Create a read-only channel named ``photon-bot``\n2. Add the *member* Photon and give Photon access, and grant ALL message-related permissions (so Photon will function well). This includes add reactions and pinning stuff. \n4. Type in ``o setup`` in that channel and wait.\n5. Have fun! Now anyone can suggest stuff and access ``o shelp``!')
         
-    def setup(bot):
-    bot.add_cog(Info(bot))
+def setup(bot):
+    bot.add_cog(Owner(bot))
