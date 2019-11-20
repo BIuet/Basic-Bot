@@ -19,9 +19,12 @@ class Search(commands.Cog):
                 else:
                     try:
                         data = resp.url
+
                         await ctx.send(data)
+                    except Exception:
+                        await ctx.send("Oh no! The cats are on fire!")
                         
-    @commands.command(aliases=["urban", "ud"])
+    @commands.command(aliases=["ud"])
     async def urban(self, ctx, *, arg):
         search = arg.replace(" ","+")
         url = "http://api.urbandictionary.com/v0/define?term={}".format(search)
@@ -39,6 +42,8 @@ class Search(commands.Cog):
                         await ctx.send(embed=embed)
                     else:
                         await ctx.send("Your search terms gave no results.")
+        except:
+            await ctx.send("Error.")
         
 def setup(bot):
     bot.add_cog(Search(bot))
