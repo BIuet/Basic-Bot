@@ -24,7 +24,7 @@ class CommandErrorHandler(commands.Cog):
             return
         
         elif isinstance(error, commands.CommandNotFound):
-            return await ctx.send('That is an non-existent command! Try ``c help`` for a list of commands')
+            return await ctx.send('That is an non-existent command! Try ``o help`` for a list of commands')
 
         elif isinstance(error, commands.DisabledCommand):
             return await ctx.send(f'{ctx.command} has been disabled.')
