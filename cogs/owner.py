@@ -19,19 +19,40 @@ class Owner(commands.Cog):
     async def setup(self, ctx):
         if ctx.channel.name == 'photon-bot':
             await ctx.message.delete()
+            message = await ctx.send('**How to add messages to priority list:**\n1. Type in ``o add`` and the name of the suggestor in a mention.')
+            await message.pin()
             message = await ctx.send('Priority List:\n')
             await message.pin()
         else:
             await ctx.send("This channel isn't named ``photon-bot``.")
             
     @commands.command(aliases=['halp'])
-    @has_access()
     async def shelp(self, ctx):
-        embed = discord.Embed(title='Photon Help', description='List of Commands only Owner can use')
+        embed = discord.Embed(title='Photon Help', description='List of Suggestion Commands')
         data.add_field(name="purge <number>", value='Clears a specific number of messages from the channel!')
         data.add_field(name="setup", value="Only used to set up ``photon-bot`` channel. Use once unless you want to break it xD")
         data.add_field(name="add <id>", value="Adds a suggestion in ``photon-bot`` to the pins. Only workable in ``photon-bot`` channel.")
         data.add_field(name="poll <question>", value="Creates a simple yes/no poll and sends it to ``photon-bot`` channel.")
+        data.add_field(name="suggest <suggestion>",value="Creates a suggestion. Limited to one per person. You can edit it by using this command.")
+        
+    @commands.command()
+    async def poll(self, ctx, sleep: int, *,arg):
+        embed = discord.Embed(title=arg,description='Poll created by '+ctx.message.author)
+        channel = discord.utils.get(ctx.message.guild.text_channels, name='photon-bot')
+        message = await channel.send(embed=embed)
+        await message.add_reaction('👍')
+        await message.add_reaction('👎')
+        await message.add_reaction('🌀')
+        await message.add_reaction('❓')
+        
+    @commands.command()
+    async def add(self, ctx, member: discord.member.mention,)
+        await ctx.message.delete()
+        messages = await channel.history().flatten()
+        message=messages[0]
+        
+        
+        
         
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
