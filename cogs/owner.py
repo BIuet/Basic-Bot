@@ -48,9 +48,10 @@ class Owner(commands.Cog):
     @commands.command()
     async def add(self, ctx, member: discord.member.mention,)
         await ctx.message.delete()
-        messages = await channel.history().flatten()
-        message=messages[0]
-        
+        async for message in ctx.channel.history(limit=2, oldest_first=True):
+            firstmessage = message
+            break
+        await ctx.send(firstmessage)
         
         
         
