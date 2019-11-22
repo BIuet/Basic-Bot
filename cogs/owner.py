@@ -58,7 +58,7 @@ class Owner(commands.Cog):
             message = await channel.send(embed=embed)
         
     @commands.command()
-    async def add(self, ctx, member: discord.member.mention,):
+    async def add(self, ctx, member: discord.member,):
         if ctx.channel.name == 'photon-bot':
             await ctx.message.delete()
         async for message in ctx.channel.history(limit=2, oldest_first=True):
