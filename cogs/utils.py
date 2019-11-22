@@ -7,7 +7,13 @@ class Utility(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         
+    def has_access():
+        def predicate(ctx):
+            return ctx.message.author.id == 625354389061894145
+        return commands.check(predicate)
+    
     @commands.command(aliases=["setgame","game"])
+    @has_access()
     async def change(self, ctx, *, arg):
         await self.bot.change_presence(activity=discord.Game(name=arg, type=0))
         await ctx.send('Game presence changed!')
