@@ -21,7 +21,7 @@ class Owner(commands.Cog):
             await ctx.message.delete()
             message = await ctx.send('Priority List:\n')
             await message.pin()
-            message = await ctx.send('**Priority list:**\n1. Type in ``o add`` and the name of the suggestor in a mention.\n2. To delete the person from the Priority List, type ``o done`` and name of suggestor.\n3. To remove the first item, type in ``o remove``.')
+            message = await ctx.send('**Priority list:**\n1. Type in ``o add`` and the name of the suggestor.\n2. To delete the person from the Priority List, type ``o done`` and name of suggestor.\n3. To remove the first item, type in ``o remove``.')
             await message.pin()
         else:
             await ctx.send("This channel isn't named ``photon-bot``.")
@@ -45,21 +45,19 @@ class Owner(commands.Cog):
         message = await channel.send(embed=embed)
         await message.add_reaction('👍')
         await message.add_reaction('👎')
-        await message.add_reaction('🌀')
         await message.pin()
         
     @commands.command()
     async def suggest(self, ctx, *, arg):
         if ctx.channel.name == 'photon-bot':
             await ctx.message.delete()
-        else:
-            embed = discord.Embed(title=ctx.message.author, description=arg)
-            embed.set_author(name=str(ctx.message.author), icon_url=ctx.message.author.avatar_url)
-            channel = discord.utils.get(ctx.message.guild.text_channels, name='photon-bot')
-            message = await channel.send(embed=embed)
+        embed = discord.Embed(title=ctx.message.author, description=arg)
+        embed.set_author(name=ctx.message.author, icon_url=ctx.message.author.avatar_url)
+        channel = discord.utils.get(ctx.message.guild.text_channels, name='photon-bot')
+        message = await channel.send(embed=embed)
         
     @commands.command()
-    async def add(self, ctx, member: discord.member,):
+    async def add(self, ctx, member,):
         if ctx.channel.name == 'photon-bot':
             await ctx.message.delete()
         async for message in ctx.channel.history(limit=2, oldest_first=True):
@@ -67,11 +65,14 @@ class Owner(commands.Cog):
             break
         msglist = []
         msglist = firstmessage.content.split('\n', 1)
-        userlist = msglist[1].split('\n')
-        userlist.append(member)
-        s = '\n'
-        liststr = s.join(userlist)
-        await firstmessage.edit(msglist[0] + '\n' + liststr)
+        if len(msglist) == 1:
+            await firstmessage.edit(msglist[0] + '\n')
+        else:
+            userlist = msglist[1].split('\n')
+            userlist.append(member)
+            s = '\n'
+            liststr = s.join(userlist)
+            await firstmessage.edit(msglist[0] + '\n' + liststr)
         
     @commands.command()
     async def remove(self, ctx, num: int):
