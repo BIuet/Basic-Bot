@@ -34,6 +34,7 @@ class Owner(commands.Cog):
         data.add_field(name="add <user name>", value="Adds a suggestion in ``photon-bot`` to the pins. Only workable in ``photon-bot`` channel.")
         data.add_field(name="poll <question>", value="Creates a simple yes/no poll and sends it to ``photon-bot`` channel.")
         data.add_field(name="suggest <suggestion>",value="Creates a suggestion. Limited to one per person. You can edit it by using this command.")
+        await ctx.send(embed=data)
         
     @commands.command()
     async def poll(self, ctx, sleep: int, *,arg):
