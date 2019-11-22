@@ -28,7 +28,7 @@ class Owner(commands.Cog):
             
     @commands.command(aliases=['halp'])
     async def shelp(self, ctx):
-        embed = discord.Embed(title='Photon Help', description='List of Suggestion Commands')
+        data = discord.Embed(title='Photon Help', description='List of Suggestion Commands')
         data.add_field(name="purge <number>", value='Clears a specific number of messages from the channel!')
         data.add_field(name="setup", value="Only used to set up ``photon-bot`` channel. Use once unless you want to break it xD")
         data.add_field(name="add <user name>", value="Adds a suggestion in ``photon-bot`` to the pins. Only workable in ``photon-bot`` channel.")
