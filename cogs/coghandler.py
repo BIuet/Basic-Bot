@@ -14,7 +14,7 @@ class Cog(commands.Cog):
         return commands.check(predicate)
         
     @commands.command()
-    @has_access(
+    @has_access()
     async def reload(self, ctx, *, cog: str):
         """ Reload any cog """
         cog = f"cogs.{cog}"
@@ -26,7 +26,7 @@ class Cog(commands.Cog):
             await message.edit(content='Error reloading cog.')
     
     @commands.command()
-    @has_access(
+    @has_access()
     async def unload(self, ctx, *, cog: str):
         cog = f"cogs.{cog}"
         message = await ctx.send(f"Preparing to remove {cog}...")
@@ -37,7 +37,7 @@ class Cog(commands.Cog):
             await message.edit(content='Error removing cog.')
 
     @commands.command()
-    @has_access(
+    @has_access()
     async def load(self, ctx, *, cog: str):
         cog = f"cogs.{cog}"
         message = await ctx.send(f"Preparing to load {cog}...")
