@@ -40,21 +40,32 @@ class Owner(commands.Cog):
     async def poll(self, ctx, sleep: int, *,arg):
         if ctx.channel.name == 'photon-bot':
             await ctx.message.delete()
-        embed = discord.Embed(title=arg,description='Poll created by '+ctx.message.author)
+        embed = discord.Embed(title=arg,description='Poll created by '+str(ctx.message.author))
         channel = discord.utils.get(ctx.message.guild.text_channels, name='photon-bot')
         message = await channel.send(embed=embed)
         await message.add_reaction('👍')
         await message.add_reaction('👎')
         await message.pin()
+        await channel.purge(limit=1)
         
     @commands.command()
     async def suggest(self, ctx, *, arg):
         if ctx.channel.name == 'photon-bot':
             await ctx.message.delete()
-        embed = discord.Embed(title=ctx.message.author, description=arg)
-        embed.set_author(name=ctx.message.author, icon_url=ctx.message.author.avatar_url)
-        channel = discord.utils.get(ctx.message.guild.text_channels, name='photon-bot')
-        message = await channel.send(embed=embed)
+        message = discord.utils.get(ctx.channel.history, message.embeds.title=ctx.message.author)
+        if message = None:
+            embed = discord.Embed(title=ctx.message.author, description=arg)
+            embed.set_author(name=str(ctx.message.author), icon_url=ctx.message.author.avatar_url)
+            channel = discord.utils.get(ctx.message.guild.text_channels, name='photon-bot')
+            message = await channel.send(embed=embed)
+            await ctx.send('Your suggestion has been added! Note: you cannot have more than one suggestion out, but you can modify it by calling this command again.')
+        else:
+            await message.delete()
+            embed = discord.Embed(title=ctx.message.author, description=arg)
+            embed.set_author(name=str(ctx.message.author), icon_url=ctx.message.author.avatar_url)
+            channel = discord.utils.get(ctx.message.guild.text_channels, name='photon-bot')
+            message = await channel.send(embed=embed)
+            await ctx.send('Your suggestion has been modified!')
         
     @commands.command()
     async def add(self, ctx, member,):
@@ -100,7 +111,10 @@ class Owner(commands.Cog):
             return
         listembed=[]
         listembed = getmessage.embeds
-        if embed_ed.description == 'Poll' :
+        embedget = listembed[0]
+        definer = []
+        definer = embedget.description.split(' ',1)
+        if definer[0] == 'Poll' :
             count = getmessage.reactions
             yes = count[0]
             no = count[1]
