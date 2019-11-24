@@ -37,7 +37,7 @@ class Owner(commands.Cog):
         await ctx.send(embed=data)
         
     @commands.command()
-    async def poll(self, ctx, sleep: int, *,arg):
+    async def poll(self, ctx, *,arg):
         if ctx.channel.name == 'photon-bot':
             await ctx.message.delete()
         embed = discord.Embed(title=arg,description='Poll created by '+str(ctx.message.author))
@@ -46,14 +46,13 @@ class Owner(commands.Cog):
         await message.add_reaction('👍')
         await message.add_reaction('👎')
         await message.pin()
-        await channel.purge(limit=1)
         
     @commands.command()
     async def suggest(self, ctx, *, arg):
         if ctx.channel.name == 'photon-bot':
             await ctx.message.delete()
-        message = discord.utils.get(ctx.channel.history, message.embeds.title=ctx.message.author)
-        if message = None:
+        message = discord.utils.get(ctx.channel.history, message.embeds_author=str(ctx.message.author))
+        if message is None:
             embed = discord.Embed(title=ctx.message.author, description=arg)
             embed.set_author(name=str(ctx.message.author), icon_url=ctx.message.author.avatar_url)
             channel = discord.utils.get(ctx.message.guild.text_channels, name='photon-bot')
@@ -71,19 +70,20 @@ class Owner(commands.Cog):
     async def add(self, ctx, member,):
         if ctx.channel.name == 'photon-bot':
             await ctx.message.delete()
-        async for message in ctx.channel.history(limit=2, oldest_first=True):
+        channel = discord.utils.get(ctx.message.guild.text_channels, name='photon-bot')
+        async for message in channel.history(limit=2, oldest_first=True):
             firstmessage = message
             break
         msglist = []
         msglist = firstmessage.content.split('\n', 1)
         if len(msglist) == 1:
-            await firstmessage.edit(msglist[0] + '\n')
+            await firstmessage.edit(content=msglist[0] + '\n')
         else:
             userlist = msglist[1].split('\n')
             userlist.append(member)
             s = '\n'
             liststr = s.join(userlist)
-            await firstmessage.edit(msglist[0] + '\n' + liststr)
+            await firstmessage.edit(content=msglist[0] + '\n' + liststr)
         
     @commands.command()
     async def remove(self, ctx, num: int):
@@ -98,7 +98,7 @@ class Owner(commands.Cog):
         del userlist[num - 1]
         s = '\n'
         liststr = s.join(userlist)
-        await firstmessage.edit(msglist[0] + '\n' + liststr)
+        await firstmessage.edit(content=msglist[0] + '\n' + liststr)
         await message.delete()
         
     @commands.command()
@@ -106,14 +106,15 @@ class Owner(commands.Cog):
     async def end(self, ctx, msgid):
         if ctx.channel.name == 'photon-bot':
             await ctx.message.delete()
-        getmessage = await ctx.fetch_message(id=msgid)
+        channel = discord.utils.get(ctx.message.guild.text_channels, name='photon-bot')
+        getmessage = await channel.fetch_message(id=msgid)
         if not getmessage.embeds:
             return
         listembed=[]
         listembed = getmessage.embeds
-        embedget = listembed[0]
+        embed_ed=listembed[0]
         definer = []
-        definer = embedget.description.split(' ',1)
+        definer = embed_ed.description.split(' ',1)
         if definer[0] == 'Poll' :
             count = getmessage.reactions
             yes = count[0]
@@ -126,7 +127,7 @@ class Owner(commands.Cog):
                 embed.add_field(name='Community Disapproves!', value='It lost by {} downvotes!'.format(str(int(no.count)-int(yes.count))))
             else:
                 embed.add_field(name='Community Feels Meh!', value='It is a tie!')
-            await ctx.send(embed=embed)
+            await channel.send(embed=embed)
         
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
@@ -134,3 +135,4 @@ class Owner(commands.Cog):
         
 def setup(bot):
     bot.add_cog(Owner(bot))
+
